@@ -16,6 +16,5 @@ server {
     error_log  {{ site_error_log }}  {{ site_error_level }};   
 
     include /etc/nginx/conf.d/{{ site_domain }}.d/*.conf;
-    # include /etc/nginx/conf.d/global/*.conf;
 
 }

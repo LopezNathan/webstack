@@ -17,3 +17,8 @@
     disablerepo: "*"
     enablerepo: "nginx"
   notify: Start NGINX
+
+- name: Ensure NGINX Global Config Directory Exists
+  file:
+    path: /etc/nginx/conf.d/global
+    state: directory
