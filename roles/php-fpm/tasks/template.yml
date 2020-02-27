@@ -14,9 +14,3 @@
   file:
     path: /etc/nginx/conf.d/global
     state: directory
-
-- name: Template PHP-FPM NGINX Config
-  template:
-    src: php-fpm.conf
-    dest: /etc/nginx/conf.d/global/php-fpm.conf
-    backup: yes
