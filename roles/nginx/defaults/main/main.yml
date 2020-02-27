@@ -1,0 +1,19 @@
+---
+# Enable/Disable NGINX
+# default: true
+nginx_enable: true
+
+# NGINX State
+# default: present
+nginx_state: present
+
+# NGINX Version
+# default: blank - latest version
+# Available Versions: https://nginx.org/en/download.html
+# Syntax: -Version (ex. -1.16.1)
+nginx_version:
+
+# NGINX Branch
+# default: stable
+# Available Branches: stable, mainline
+nginx_branch: stable

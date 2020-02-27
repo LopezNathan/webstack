@@ -1,0 +1,66 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    ansible_python_interpreter: /usr/bin/env python
+
+  pre_tasks:
+    - name: Define Container Facts
+      set_fact:
+        docker_container_name:  "webstack_tests"
+        docker_image_name: "centos:latest"
+
+  tasks:
+
+  - name: Ensure Docker Python Package
+    pip:
+      name: docker
+      extra_args: "--user --upgrade"
+
+  - name: Create Test Docker Container
+    docker_container:
+      name:    "{{ docker_container_name }}"
+      image:   "{{ docker_image_name }}"
+      ports:
+        - "80:80"
+        - "443:443"
+      command: /sbin/init
+      state:    started
+      privileged: true
+
+  - name: Add Container to Inventory
+    add_host:
+      name: "{{ docker_container_name }}"
+      groups: docker_containers
+      ansible_connection: docker
+
+  - name: Install Required Testing Package in Container
+    delegate_to: "{{ docker_container_name }}"
+    raw: yum -y install python3
+
+- name: Run Role in Container
+  hosts: docker_containers
+
+  roles:
+    - { role: ../roles/nginx }
+
+  tasks:
+
+    - meta: flush_handlers
+
+    - name: Check NGINX
+      uri:
+        url: http://localhost
+        return_content: yes
+      register: nginx
+      failed_when: "'Welcome' not in nginx.content"
+
+- hosts: localhost
+  connection: local
+  vars:
+    ansible_python_interpreter: /usr/bin/env python
+  tasks:
+    - name: Remove Test Docker Container
+      docker_container:
+        name: "{{ docker_container_name }}"
+        state: absent

@@ -1,0 +1,11 @@
+---
+- name: NGINX
+  block:
+
+    # Service Tasks
+    - import_tasks: setup.yml
+
+    # Template Tasks
+    - import_tasks: template.yml
+
+  when: nginx_enable | bool

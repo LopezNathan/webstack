@@ -1,0 +1,12 @@
+---
+- name: Template NGINX Main Config
+  template:
+    src: "{{ nginx_conf_template }}"
+    dest: "{{ nginx_conf_file }}"
+    backup: yes
+
+- name: Template NGINX Default vHost Config
+  template:
+    src: "{{ nginx_default_template }}"
+    dest: "{{ nginx_default_conf_file }}"
+    backup: yes

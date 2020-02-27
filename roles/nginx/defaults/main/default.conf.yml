@@ -1,0 +1,18 @@
+---
+# Files & Paths
+nginx_default_template: default.conf.j2
+nginx_default_conf_file: /etc/nginx/conf.d/default.conf
+
+# Default Server
+nginx_default_listen: 80 default_server
+nginx_default_server: localhost
+nginx_default_root: /usr/share/nginx/html
+nginx_default_index: index.php index.html
+
+# Access Log
+nginx_default_access_log: /var/log/nginx/access.log
+nginx_default_access_log_name: main
+
+# Error Log
+nginx_default_error_log: /var/log/nginx/error.log
+nginx_default_error_level: warn

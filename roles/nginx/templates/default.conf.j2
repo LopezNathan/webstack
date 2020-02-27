@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+
+server {
+    listen       {{ nginx_default_listen }};
+    server_name  {{ nginx_default_server }};
+
+    root   {{ nginx_default_root }};
+
+    index {{ nginx_default_index }};
+
+    access_log  {{ nginx_default_access_log }}  {{ nginx_default_access_log_name }};
+    error_log  {{ nginx_default_error_log }}  {{ nginx_default_error_level }};   
+
+    include /etc/nginx/conf.d/global/*.conf;
+
+}

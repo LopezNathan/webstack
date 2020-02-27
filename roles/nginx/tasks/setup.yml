@@ -1,0 +1,19 @@
+---
+- name: Add NGINX Repository
+  yum_repository:
+    name: nginx
+    description: NGINX Repository
+    baseurl: >-
+      https://nginx.org/packages/{{ (nginx_branch == 'mainline')
+      | ternary('mainline/', '') }}{{ (ansible_distribution == "RedHat")
+      | ternary('rhel', 'centos') }}/{{ ansible_distribution_major_version }}/$basearch/
+    enabled: yes
+    gpgcheck: yes
+
+- name: Install NGINX
+  yum:
+    name: "nginx{{ nginx_version }}"
+    state: "{{ nginx_state }}"
+    disablerepo: "*"
+    enablerepo: "nginx"
+  notify: Start NGINX

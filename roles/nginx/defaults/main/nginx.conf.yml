@@ -1,0 +1,42 @@
+---
+# Files & Paths
+nginx_conf_template: nginx.conf.j2
+nginx_conf_file: /etc/nginx/nginx.conf
+nginx_pid_file: /var/run/nginx.pid
+nginx_mime_file: /etc/nginx/mime.types
+
+# User
+nginx_user: nginx
+
+# Error Log
+nginx_error_log: /var/log/nginx/error.log
+nginx_error_level: warn
+
+# Worker
+nginx_worker_processes: auto
+nginx_worker_connections: 1024
+# nginx_worker_rlimit_nofile: 1024
+nginx_worker_multi_accept: "off"
+
+# HTTP
+nginx_client_max_body_size: 64m
+
+# Access Log
+nginx_access_log: /var/log/nginx/access.log
+nginx_access_log_name: main
+nginx_access_log_format: |-
+      '$remote_addr - $remote_user [$time_local] "$request" '
+      '$status $body_bytes_sent "$http_referer" '
+      '"$http_user_agent" "$http_x_forwarded_for"'
+nginx_access_log_format_name: main
+
+# Miscellaneous
+nginx_sendfile: "on"
+nginx_tcp_nopush: "on"
+nginx_tcp_nodelay: "on"
+nginx_keepalive_timeout: 65
+# nginx_server_tokens: "off"
+nginx_proxy_cache: false
+nginx_limit_req: false
+nginx_keyval: false
+nginx_autoindex_global: false
