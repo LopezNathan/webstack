@@ -1,0 +1,14 @@
+---
+- name: MariaDB (MySQL)
+  block:
+
+    # Install MariaDB
+    - import_tasks: setup.yml
+
+    # Configure MariaDB
+    - import_tasks: config.yml
+
+    # Template Tasks
+    - import_tasks: template.yml
+
+  when: mariadb_enable | bool

@@ -1,0 +1,29 @@
+---
+- name: Start MariaDB
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+  when: mariadb_install.changed
+
+- name: Generate MariaDB Root Password
+  set_fact:
+    mariadb_root_password: "{{ lookup('password', '/dev/null length=64') }}"
+  when:
+    - mariadb_install.changed
+    - mariadb_root_password | length == 0
+
+- name: Set Initial MariaDB Root Password
+  mysql_user:
+    name: root
+    password: "{{ mariadb_root_password }}"
+    host: "{{ item }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    login_unix_socket: "{{ mariadb_login_unix_socket }}"
+    state: present
+  with_items:
+    - ::1
+    - 127.0.0.1
+    - localhost
+  when: mariadb_install.changed

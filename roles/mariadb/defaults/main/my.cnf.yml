@@ -1,0 +1,3 @@
+---
+mariadb_client_template: my.cnf.j2
+mariadb_client_file: /root/.my.cnf

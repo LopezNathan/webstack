@@ -1,0 +1,2 @@
+# Allow Default Disabled Function "shell_exec" for MySQL Tests
+php_admin_value_disable_functions:

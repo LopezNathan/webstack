@@ -1,0 +1,10 @@
+---
+- name: Template MySQL Client Config
+  template:
+    src: "{{ mariadb_client_template }}"
+    dest: "{{ mariadb_client_file }}"
+    owner: root
+    mode: 0600
+    backup: yes
+    force: no
+  when: mariadb_install.changed

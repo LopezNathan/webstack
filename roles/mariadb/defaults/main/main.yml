@@ -1,0 +1,24 @@
+---
+# Enable/Disable MariaDB
+# default: true
+mariadb_enable: true
+
+# MariaDB State
+# default: present
+mariadb_state: present
+
+# MariaDB Version
+# default: 10.4 (Stable)
+# Available Versions: https://downloads.mariadb.org/mariadb/repositories/
+  # - CentOS/RedHat 8: 10.4, 10.3, 10.5 (Alpha)
+  # - CentOS/RedHat 7: 10.4, 10.3, 10.2, 10.1, 5.5, 10.5 (Alpha)
+  # - CentOS/RedHat 6: 10.3, 10.2, 10.1, 5.5
+mariadb_version: 10.4
+
+# MariaDB Root Password
+# default: randomly generated, if empty
+mariadb_root_password: ''
+
+# MariaDB Login Sock
+# default: /var/lib/mysql/mysql.sock
+mariadb_login_unix_socket: /var/lib/mysql/mysql.sock

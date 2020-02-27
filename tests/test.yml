@@ -44,6 +44,7 @@
   roles:
     - { role: ../roles/nginx }
     - { role: ../roles/php-fpm }
+    - { role: ../roles/mariadb }
 
   tasks:
 
@@ -68,6 +69,19 @@
         return_content: yes
       register: php_fpm
       failed_when: "'PHP Version' not in php_fpm.content"
+
+    - name: Create MariaDB (MySQL) Test File
+      lineinfile:
+        path: /usr/share/nginx/html/mysql.php
+        line: "<?php if (shell_exec('mysql -V') != ''){echo 'MySQL Installed';}else{echo 'MySQL NOT Available';}"
+        create: yes
+
+    - name: Check MariaDB (MySQL)
+      uri:
+        url: http://localhost/mysql.php
+        return_content: yes
+      register: mariadb
+      failed_when: "'Installed' not in mariadb.content"
 
 - hosts: localhost
   connection: local

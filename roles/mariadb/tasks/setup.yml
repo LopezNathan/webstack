@@ -1,0 +1,43 @@
+---
+- name: Ensure EPEL & Python PIP
+  yum:
+    name: ['epel-release', 'python3-pip']
+    state: present
+
+# Interact with DBs using Ansible
+- name: Ensure pyMySQL
+  pip:
+    name: pymysql
+    state: "{{ mariadb_state }}"
+
+- name: Add MariaDB (MySQL) Repository
+  yum_repository:
+    name: mariadb
+    description: MariaDB Repository
+    baseurl: >-
+      http://yum.mariadb.org/{{ mariadb_version }}/{{ (ansible_distribution == "RedHat")
+      | ternary('rhel', '') }}{{ ansible_distribution | lower }}{{ ansible_distribution_major_version }}-amd64
+    enabled: yes
+    gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+    gpgcheck: yes
+
+- name: Install MariaDB (MySQL) Dependencies
+  yum:
+    name: "{{ packages }}"
+    state: "{{ mariadb_state }}"
+  vars:
+    packages:
+    - rsync
+    - perl-DBI
+    - libaio
+    - lsof
+    - boost-program-options
+
+- name: Install MariaDB (MySQL)
+  yum:
+    name: MariaDB-server
+    state: "{{ mariadb_state }}"
+    disablerepo: "*"
+    enablerepo: "mariadb"
+  register: mariadb_install
+  notify: Start MariaDB
