@@ -1,0 +1,29 @@
+---
+- name: Check for User/Domains Inventory
+  stat:
+    path: /etc/user_domains
+  register: inventory_check
+
+- name: Ensure User/Domains Inventory Exists
+  file:
+    path: /etc/user_domains
+    state: touch
+  when: not inventory_check.stat.exists
+
+- name: Check for Existing Site in Inventory
+  shell: "grep -s {{ site_domain }} /etc/user_domains"
+  register: site_check
+  failed_when: site_check.rc == 2
+  changed_when: false
+
+- name: Site Setup
+  block:
+
+    # Service Tasks
+    - import_tasks: setup.yml
+
+    # Template Tasks
+    - import_tasks: template.yml
+
+  when: 
+    - not site_check.stdout | regex_search("(.*)\:{{ site_domain }}")

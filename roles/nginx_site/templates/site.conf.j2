@@ -1,0 +1,21 @@
+# {{ ansible_managed }}
+
+server {
+    listen       {{ site_listen }};
+    {% if site_domain_www == true %}
+    server_name  {{ site_domain }} www.{{ site_domain }};
+    {% else %}
+    server_name  {{ site_domain }};
+    {% endif %}
+
+    root   {{ site_root_public }};
+
+    index {{ site_index }};
+
+    access_log  {{ site_access_log }}  {{ site_access_log_name }};
+    error_log  {{ site_error_log }}  {{ site_error_level }};   
+
+    include /etc/nginx/conf.d/{{ site_domain }}.d/*.conf;
+    # include /etc/nginx/conf.d/global/*.conf;
+
+}

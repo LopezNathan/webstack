@@ -1,0 +1,35 @@
+---
+site_php_pool_template: pool.conf.j2
+site_php_pool_conf_file: /etc/opt/remi/{{ php_version }}/php-fpm.d/{{ site_domain }}.conf
+site_php_pool_name: "{{ site_name }}"
+site_php_pool_user: "{{ site_name }}"
+site_php_pool_group: "{{ site_name }}"
+
+# Listener
+site_php_listen: /var/opt/remi/{{ php_version }}/run/php-fpm/{{ site_name }}.sock
+site_php_listen_owner: "{{ site_name }}"
+site_php_listen_group: "{{ site_name }}"
+site_php_listen_mode: 660
+# site_php_listen_backlog: 511
+
+# Process Manager
+site_php_process_manager: dynamic
+site_php_max_children: 50
+site_php_start_servers: 5
+site_php_min_spare_servers: 5
+site_php_max_spare_servers: 35
+site_php_process_idle_timeout: 10s;
+site_php_max_requests: 5000
+
+# Status
+site_php_status_path: /phpstatus
+site_php_ping_path: /phpping
+site_php_ping_response: pong
+
+# Access Log
+site_php_access_log: "{{ site_logs }}/php.access.log"
+site_php_access_log_format: "%{HTTP_X_FORWARDED_FOR}e - [%t] \"%m %r%Q%q\" %s %l - %P %p %{seconds}d %{bytes}M %{user}C%% %{system}C%% \"%{REQUEST_URI}e\""
+
+# Slow Log
+site_php_slow_log: "{{ site_logs }}/php.slow.log"
+site_php_request_slowlog_timeout: 30

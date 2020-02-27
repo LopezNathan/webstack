@@ -1,0 +1,43 @@
+---
+- name: Generate Site Name
+  set_fact:
+    site_name: "{{ lookup('password', '/dev/null length=10 chars=ascii_letters,digits') }}"
+  when: site_name | length == 0
+
+- name: Ensure Site UNIX User
+  user:
+    name: "{{ site_name }}"
+    state: "{{ site_state }}"
+
+- name: Ensure Site UNIX Group
+  group:
+    name: "{{ site_name }}"
+    state: "{{ site_state }}"
+
+- name: Ensure NGINX User Belongs to Site UNIX Group
+  user:
+    name: nginx
+    groups: "{{ site_name }}"
+    append: yes
+    
+- name: Ensure Site Directories Exist
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ site_root }}"
+    - "{{ site_root_public }}"
+    - "{{ site_logs }}"
+    - "/etc/nginx/conf.d/{{ site_domain }}.d"
+
+- name: Ensure Permissions of Site User Home Directory (Allow Group)
+  file:
+    path: "/home/{{ site_name }}"
+    mode: '0750'
+
+- name: Add Site to User/Domain Inventory
+  lineinfile:
+    path: /etc/user_domains
+    line: "{{ site_name }}:{{ site_domain }}"
+    create: yes
+  

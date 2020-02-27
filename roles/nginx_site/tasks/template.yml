@@ -1,0 +1,27 @@
+---
+- name: Template NGINX Site Config
+  template:
+    src: "{{ site_template }}"
+    dest: "{{ site_conf_file }}"
+    backup: yes
+  notify: Reload NGINX
+
+- name: Template Site Default Index
+  template:
+    src: index.html
+    dest: "{{ site_root_public }}"
+    backup: yes
+  when: site_default_index == true
+
+- name: Template PHP-FPM NGINX Config
+  template:
+    src: php-fpm.conf
+    dest: /etc/nginx/conf.d/{{ site_domain }}.d/php-fpm.conf
+    backup: yes
+
+- name: Template PHP-FPM Site Pool Config
+  template:
+    src: pool.conf.j2
+    dest: "{{ site_php_pool_conf_file }}"
+    backup: yes
+  notify: Reload PHP-FPM

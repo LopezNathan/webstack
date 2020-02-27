@@ -27,6 +27,7 @@
       command: /sbin/init
       state:    started
       privileged: true
+      etc_hosts: { example.com : 127.0.0.1 }
 
   - name: Add Container to Inventory
     add_host:
@@ -45,6 +46,7 @@
     - { role: ../roles/nginx }
     - { role: ../roles/php-fpm }
     - { role: ../roles/mariadb }
+    - { role: ../roles/nginx_site }
 
   tasks:
 
@@ -52,33 +54,33 @@
 
     - name: Check NGINX
       uri:
-        url: http://localhost
+        url: http://example.com
         return_content: yes
       register: nginx
       failed_when: "'Welcome' not in nginx.content"
 
     - name: Create PHP-FPM Test File (PHPInfo)
       lineinfile:
-        path: /usr/share/nginx/html/phpinfo.php
+        path: /home/{{ site_name }}/public/phpinfo.php
         line: '<?php phpinfo(); ?>'
         create: yes
 
     - name: Check PHP-FPM
       uri:
-        url: http://localhost/phpinfo.php
+        url: http://example.com/phpinfo.php
         return_content: yes
       register: php_fpm
       failed_when: "'PHP Version' not in php_fpm.content"
 
     - name: Create MariaDB (MySQL) Test File
       lineinfile:
-        path: /usr/share/nginx/html/mysql.php
+        path: /home/{{ site_name }}/public/mysql.php
         line: "<?php if (shell_exec('mysql -V') != ''){echo 'MySQL Installed';}else{echo 'MySQL NOT Available';}"
         create: yes
 
     - name: Check MariaDB (MySQL)
       uri:
-        url: http://localhost/mysql.php
+        url: http://example.com/mysql.php
         return_content: yes
       register: mariadb
       failed_when: "'Installed' not in mariadb.content"

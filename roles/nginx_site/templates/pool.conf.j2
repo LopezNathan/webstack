@@ -1,0 +1,36 @@
+;{{ ansible_managed }}
+
+[{{ site_php_pool_name }}]
+user = {{ site_php_pool_user }}
+group = {{ site_php_pool_group }}
+
+listen = {{ site_php_listen }}
+listen.owner = {{ site_php_listen_owner }}
+listen.group = {{ site_php_listen_group }}
+{% if site_php_listen_mode is defined %}
+listen.mode = {{ site_php_listen_mode }}
+{% endif %}
+{% if site_php_listen_backlog is defined %}
+listen.backlog = {{ site_php_listen_backlog }}
+{% endif %}
+
+pm = {{ site_php_process_manager }}
+pm.max_children = {{ site_php_max_children }}
+pm.start_servers = {{ site_php_start_servers }}
+pm.min_spare_servers = {{ site_php_min_spare_servers }}
+pm.max_spare_servers = {{ site_php_max_spare_servers }}
+pm.process_idle_timeout = {{ site_php_process_idle_timeout }}
+pm.max_requests = {{ site_php_max_requests }}
+
+pm.status_path = {{ site_php_status_path }}
+ping.path = {{ site_php_ping_path }}
+ping.response = {{ site_php_ping_response }}
+
+access.log = {{ site_php_access_log }}
+access.format = {{ site_php_access_log_format }}
+
+slowlog = {{ site_php_slow_log }}
+request_slowlog_timeout = {{ site_php_request_slowlog_timeout }}
+{% if site_php_request_slowlog_trace_depth is defined %}
+request_slowlog_trace_depth = {{ site_php_request_slowlog_trace_depth }}
+{% endif %}

@@ -1,0 +1,36 @@
+---
+# Site State
+# default: present
+site_state: present
+
+# Site Domain (no WWW)
+# default: example.com
+site_domain: example.com
+
+# Site Enable/Disable WWW
+# default: true
+site_domain_www: true
+
+# Site Name - UNIX Username (Alphanumeric)
+# default: randomly generated, if empty
+site_name: ''
+
+# Site Default Index File (index.html)
+# default: true
+site_default_index: true
+
+# Site Root
+# default: /home/sitename/
+site_root: /home/{{ site_name }}
+
+# Site Public Root
+# default: /home/sitename/public
+site_root_public: /home/{{ site_name }}/public
+
+# Site Log Path
+# default: /home/sitename/logs
+site_logs: /home/{{ site_name }}/logs
+
+# Site Enable/Disable PHP-FPM
+# default: true
+site_php_enable: true

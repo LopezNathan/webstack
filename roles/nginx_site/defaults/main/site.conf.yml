@@ -1,0 +1,15 @@
+---
+site_template: site.conf.j2
+site_conf_file: /etc/nginx/conf.d/{{ site_domain }}.conf
+
+# Server
+site_listen: 80
+site_index: index.php index.html
+
+# Access Log
+site_access_log: '{{ site_logs }}/access.log'
+site_access_log_name: main
+
+# Error Log
+site_error_log: '{{ site_logs }}/error.log'
+site_error_level: warn
