@@ -1,0 +1,21 @@
+---
+# Enable/Disable PHP-FPM
+# default: true
+php_enable: true
+
+# PHP-FPM State
+# default: present
+php_state: present
+
+# PHP Version
+# default: php74
+# Available Versions: 
+ # php72, php73, php74
+ # Deprecated (No CentOS 8) - php54, php55, php56, php70, php71
+php_version: php74
+
+# PHP Modules
+# default: mysqlnd, gd
+php_modules:
+  - mysqlnd
+  - gd

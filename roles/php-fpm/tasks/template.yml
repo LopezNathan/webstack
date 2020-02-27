@@ -1,0 +1,22 @@
+---
+- name: Ensure Log Directory Exists
+  file:
+    path: "/var/log/php-fpm/{{ php_version }}"
+    state: directory
+
+- name: Template PHP Pool Config
+  template:
+    src: "{{ php_pool_template }}"
+    dest: "{{ php_pool_conf_file }}"
+    backup: yes
+
+- name: Ensure NGINX Global Config Directory Exists
+  file:
+    path: /etc/nginx/conf.d/global
+    state: directory
+
+- name: Template PHP-FPM NGINX Config
+  template:
+    src: php-fpm.conf
+    dest: /etc/nginx/conf.d/global/php-fpm.conf
+    backup: yes

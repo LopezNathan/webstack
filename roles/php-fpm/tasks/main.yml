@@ -1,0 +1,11 @@
+---
+- name: PHP-FPM
+  block:
+
+    # Service Tasks
+    - import_tasks: setup.yml
+
+    # Template Tasks
+    - import_tasks: template.yml
+
+  when: php_enable | bool

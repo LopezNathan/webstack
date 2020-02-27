@@ -43,6 +43,7 @@
 
   roles:
     - { role: ../roles/nginx }
+    - { role: ../roles/php-fpm }
 
   tasks:
 
@@ -54,6 +55,19 @@
         return_content: yes
       register: nginx
       failed_when: "'Welcome' not in nginx.content"
+
+    - name: Create PHP-FPM Test File (PHPInfo)
+      lineinfile:
+        path: /usr/share/nginx/html/phpinfo.php
+        line: '<?php phpinfo(); ?>'
+        create: yes
+
+    - name: Check PHP-FPM
+      uri:
+        url: http://localhost/phpinfo.php
+        return_content: yes
+      register: php_fpm
+      failed_when: "'PHP Version' not in php_fpm.content"
 
 - hosts: localhost
   connection: local

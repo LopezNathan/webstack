@@ -1,0 +1,55 @@
+;{{ ansible_managed }}
+
+[{{ php_pool_name }}]
+user = {{ php_pool_user }}
+group = {{ php_pool_group }}
+
+listen = {{ php_listen }}
+listen.owner = {{ php_listen_owner }}
+listen.group = {{ php_listen_group }}
+{% if php_listen_mode is defined %}
+listen.mode = {{ php_listen_mode }}
+{% endif %}
+listen.allowed_clients = {{ php_listen_allowed_clients }}
+{% if php_listen_backlog is defined %}
+listen.backlog = {{ php_listen_backlog }}
+{% endif %}
+
+{% if php_pool_prefix is defined %}
+prefix = {{ php_pool_prefix }}
+{% endif %}
+
+pm = {{ php_process_manager }}
+pm.max_children = {{ php_max_children }}
+pm.start_servers = {{ php_start_servers }}
+pm.min_spare_servers = {{ php_min_spare_servers }}
+pm.max_spare_servers = {{ php_max_spare_servers }}
+pm.process_idle_timeout = {{ php_process_idle_timeout }}
+pm.max_requests = {{ php_max_requests }}
+
+pm.status_path = {{ php_status_path }}
+ping.path = {{ php_ping_path }}
+ping.response = {{ php_ping_response }}
+
+slowlog = {{ php_slow_log }}
+request_slowlog_timeout = {{ php_request_slowlog_timeout }}
+{% if php_request_slowlog_trace_depth is defined %}
+request_slowlog_trace_depth = {{ php_request_slowlog_trace_depth }}
+{% endif %}
+{% if php_request_terminate_timeout is defined %}
+request_terminate_timeout = {{ php_request_terminate_timeout }}
+{% endif %}
+
+{% if php_rlimit_files is defined %}
+rlimit_files = {{ php_rlimit_files }}
+{% endif %}
+{% if php_rlimit_core is defined %}
+rlimit_core = {{ php_rlimit_core }}
+{% endif %}
+
+{% if php_securty_limit_extensions is defined %}
+security.limit_extensions = {{ php_securty_limit_extensions }}
+{% endif %}
+
+php_admin_value[error_log] = {{ php_admin_value_error_log }}
+php_admin_value[disable_functions] = {{ php_admin_value_disable_functions }}

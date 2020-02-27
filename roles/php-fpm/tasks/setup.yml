@@ -1,0 +1,49 @@
+---
+- name: Install EPEL release
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install Remi Repo
+  yum:
+    name: https://rpms.remirepo.net/enterprise/remi-release-{{ ansible_distribution_major_version }}.rpm
+    state: present
+
+- name: Install PHP
+  yum:
+    name: ["{{ php_version }}", 'php-cli']
+    state: "{{ php_state }}"
+
+- name: Install PHP-FPM
+  yum:
+    name: "{{ php_version }}-php-fpm"
+    state: "{{ php_state }}"
+
+- set_fact: 
+    php_modules_list: []
+- set_fact:
+    php_modules_list: "{{ php_modules_list }} + [ '{{ \"%s-php-%s\"|format(item[0],item[1]) }}' ]"
+  with_nested:
+    - "{{ php_version }}"
+    - "{{ php_modules }}"
+
+- name: Install PHP Modules
+  yum:
+    name: "{{ php_modules_list }}"
+    state: "{{ php_state }}"
+  notify: Start PHP-FPM
+
+- name: Ensure Parent Directory for Easy of Use Exists
+  file:
+    path: /etc/php-fpm/
+    owner: root
+    group: root
+    state: directory
+
+- name: Ensure Symlink for Ease of Use
+  file:
+    src: /etc/opt/remi/{{ php_version }}
+    dest: /etc/php-fpm/{{ php_version }}
+    owner: root
+    group: root
+    state: link

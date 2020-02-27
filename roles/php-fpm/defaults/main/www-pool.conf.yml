@@ -1,0 +1,48 @@
+---
+php_pool_template: www-pool.conf.j2
+php_pool_conf_file: /etc/opt/remi/{{ php_version }}/php-fpm.d/www.conf
+php_pool_name: www
+# php_pool_prefix: /path/to/pools/$pool
+php_pool_user: nginx
+php_pool_group: nginx
+
+# Listener
+php_listen: 127.0.0.1:9000
+# If using sock file, update templates/php-fpm.conf to include 'unix:' before variable.
+# php_listen: /var/opt/remi/{{ php_version }}/run/php-fpm/www.sock
+php_listen_owner: nginx
+php_listen_group: nginx
+# php_listen_mode: 660
+php_listen_allowed_clients: 127.0.0.1
+# php_listen_backlog: 511
+
+# Process Manager
+php_process_manager: dynamic
+php_max_children: 50
+php_start_servers: 5
+php_min_spare_servers: 5
+php_max_spare_servers: 35
+php_process_idle_timeout: 10s;
+php_max_requests: 5000
+
+# Status
+php_status_path: /phpstatus
+php_ping_path: /phpping
+php_ping_response: pong
+
+# Slow Logging
+php_slow_log: /var/log/php-fpm/{{ php_version }}/www-slow.log
+php_request_slowlog_timeout: 60
+# php_request_slowlog_trace_depth: 20
+# php_request_terminate_timeout: 0
+
+# Process Limits
+# php_rlimit_files: 1024
+# php_rlimit_core: 0
+
+# Master Values
+php_admin_value_error_log: /var/log/php-fpm/{{ php_version }}/www-error.log
+php_admin_value_disable_functions: shell_exec
+
+# Security
+php_securty_limit_extensions: .php .php3 .php4 .php5 .php7
