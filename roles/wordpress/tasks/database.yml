@@ -1,0 +1,29 @@
+---
+- name: Generate WordPress Database Name
+  set_fact:
+    wordpress_db_name: "wp_{{ lookup('password', '/dev/null length=15 chars=ascii_letters,digits') }}"
+  when: wordpress_db_name | length == 0
+
+- name: Generate WordPress Database Username
+  set_fact:
+    wordpress_db_username: "wp_{{ lookup('password', '/dev/null length=15 chars=ascii_letters,digits') }}"
+  when: wordpress_db_username | length == 0
+
+- name: Generate WordPress Database User Password
+  set_fact:
+    wordpress_db_password: "{{ lookup('password', '/dev/null length=32') }}"
+  when: wordpress_db_password | length == 0
+
+- name: Create WordPress Database
+  mysql_db:
+    name: "{{ wordpress_db_name }}"
+    state: present
+
+- name: Create WordPress Database User
+  mysql_user:
+    name: "{{ wordpress_db_username }}"
+    password: "{{ wordpress_db_password }}"
+    priv: "{{ wordpress_db_name }}.*:ALL"
+    host: "{{ wordpress_db_host }}"
+    state: present
+    update_password: on_create

@@ -1,0 +1,13 @@
+---
+# Enable/Disable WordPress Install
+# default: true
+wordpress_enable: true
+
+# WordPress Version
+# default: latest
+# Available Versions: https://wordpress.org/download/releases/
+wordpress_version: latest
+
+# WordPress Install Path
+# default: /usr/share/nginx/html/
+wordpress_path: /usr/share/nginx/html/

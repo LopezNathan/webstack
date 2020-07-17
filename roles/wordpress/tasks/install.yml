@@ -1,0 +1,22 @@
+---
+- name: Download & Extract WordPress
+  unarchive:
+    src: https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz 
+    dest: /tmp/
+    remote_src: yes
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}"
+
+# # TODO - This is a temporary fix to "--strip 1" with unarchive task above
+# # https://github.com/ansible/ansible/issues/29657
+- name: Move WordPress Files to WordPress Path
+  synchronize:
+    src: /tmp/wordpress/
+    dest: "{{ wordpress_path }}"
+  delegate_to: "{{ inventory_hostname }}"
+
+- name: Generate WordPress Salt Keys
+  uri:
+    url: https://api.wordpress.org/secret-key/1.1/salt/
+    return_content: yes
+  register: wordpress_salts

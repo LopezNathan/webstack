@@ -1,0 +1,16 @@
+---
+wordpress_conf_template: wp-config.php
+wordpress_conf_file: "{{ wordpress_path }}/wp-config.php"
+
+# Database Authentication
+wordpress_db_host: localhost
+# default: randomly generated, if empty
+wordpress_db_name: ''
+wordpress_db_username: ''
+wordpress_db_password: ''
+
+# Charset / Collate Types
+wordpress_db_charset: utf8
+wordpress_db_collate: ''
+
+wordpress_table_prefix: wp_

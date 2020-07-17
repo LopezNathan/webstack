@@ -1,0 +1,8 @@
+---
+- name: Template WordPress Config
+  template:
+    src: "{{ wordpress_conf_template }}"
+    dest: "{{ wordpress_conf_file }}"
+    owner: nginx
+    group: nginx
+    backup: yes

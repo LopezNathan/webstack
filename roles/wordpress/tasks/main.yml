@@ -1,0 +1,28 @@
+---
+- name: WordPress Install
+  block:
+
+    # WordPress Core Tasks
+    - import_tasks: install.yml
+
+  when: wordpress_enable | bool
+
+  always:
+
+  - name: Check for Existing Install
+    stat: 
+      path: "{{ wordpress_path }}/wp-config.php"
+    register: wordpress_check
+
+- name: WordPress Configure
+  block:
+
+    # Database Tasks
+    - import_tasks: database.yml
+
+    # Template Tasks
+    - import_tasks: template.yml
+
+  when: 
+    - wordpress_enable | bool
+    - not wordpress_check.stat.exists
