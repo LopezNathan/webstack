@@ -26,4 +26,4 @@
     - import_tasks: template.yml
 
   when: 
-    - not site_check.stdout | regex_search("(.*)\:{{ site_domain }}")
+    - not site_check.stdout | regex_search("(.*)site_domain")
