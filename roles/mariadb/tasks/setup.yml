@@ -32,6 +32,7 @@
     - libaio
     - lsof
     - boost-program-options
+    - openssl
 
 - name: Install MariaDB (MySQL)
   yum:
